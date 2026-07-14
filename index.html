@@ -1,9 +1,92 @@
-CORE = iki1uc
-VERSION = 1.0
-CODE = RAW‑A81
-LAGE = A81‑Axis / Hybrid‑System
-STATUS = Aktiv
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>A81‑Axis · iki1uc · RAW‑A81</title>
+
+<style>
+body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
+h1, h2 { color:#6cf; }
+pre { background:#111; border:1px solid #333; padding:12px; }
+a { color:#6cf; display:block; margin:6px 0; }
+canvas { background:#111; border:1px solid #333; margin-top:20px; }
+section { margin-bottom:40px; }
+</style>
+</head>
+
+<body>
+
+<h1>A81‑Axis · iki1uc · RAW‑A81</h1>
+
+<pre>
+CORE     = iki1uc
+VERSION  = 1.0
+CODE     = RAW‑A81
+LAGE     = A81‑Axis / Hybrid‑System
+STATUS   = Aktiv
 IDENTITY = A81‑Identität
-HYBRID = 64/81
-A81 = A81‑Index
-MATRIX = A81‑Matrix‑Achse
+HYBRID   = 64/81
+A81      = A81‑Index
+MATRIX   = A81‑Matrix‑Achse
+AXI      = Voll
+API      = Aktiv
+READY    = 100%
+</pre>
+
+<section>
+<h2>Module</h2>
+<a href="./ID.html">ID · Identität</a>
+<a href="./README.md">README · Befunde</a>
+<a href="./A81.html">A81 · Index</a>
+<a href="./MATRIX.html">Matrix · Achse</a>
+<a href="./HYBRID.html">Hybrid · 64/81</a>
+<a href="./CORE.html">CORE · iki1uc</a>
+</section>
+
+<section>
+<h2>A81‑Axis · Signatur‑Renderer</h2>
+<canvas id="a81Canvas" width="500" height="500"></canvas>
+</section>
+
+<script>
+// --- A81 SIGNATUR-RENDERER ---
+const c = document.getElementById("a81Canvas");
+const x = c.getContext("2d");
+
+let t = 0;
+
+function drawA81() {
+    x.clearRect(0,0,500,500);
+
+    // --- A81 Dreieck (RAW) ---
+    const tri = [
+        [250,80],
+        [120,420],
+        [380,420]
+    ];
+    x.strokeStyle = "#6cf";
+    x.lineWidth = 3;
+    x.beginPath();
+    tri.forEach(([px,py],i)=>{
+        if(i===0) x.moveTo(px,py);
+        else x.lineTo(px,py);
+    });
+    x.closePath();
+    x.stroke();
+
+    // --- Hybrid 64/81 Kreis ---
+    x.strokeStyle = "#0f0";
+    x.lineWidth = 2;
+    x.beginPath();
+    x.arc(250,250,150 + Math.sin(t)*10,0,Math.PI*2);
+    x.stroke();
+
+    // --- A81 Matrix Achse (12e) ---
+    const R = 200;
+    x.strokeStyle = "#f90";
+    x.beginPath();
+    for(let i=0;i<12;i++){
+        const a = t + i*Math.PI/6;
+        const px = 250 + Math.cos(a)*R;
+        const py = 250 + Math.sin(a)*R;
+        if(i===0) x.moveTo(px,py);
