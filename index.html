@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>A81‑Axis · Hyperraum · 6E/6D · 64‑Matrix · 81‑Achsen</title>
+<title>A81‑Axis · Hyperraum</title>
 
 <style>
 body { background:#000; color:#0f0; font-family:monospace; padding:40px; }
@@ -10,7 +10,7 @@ nav a { color:#6cf; margin-right:20px; cursor:pointer; font-size:20px; }
 .box { background:#111; padding:20px; margin:20px 0; border-left:3px solid #6cf; display:none; }
 pre { white-space:pre; }
 
-#geo {
+#geoHome {
     width:360px;
     height:360px;
     margin:auto;
@@ -26,6 +26,14 @@ pre { white-space:pre; }
     border-radius:50%;
     position:absolute;
 }
+
+#effHome {
+    background:#111;
+    padding:20px;
+    margin:20px auto;
+    border-left:3px solid #6cf;
+    width:360px;
+}
 </style>
 
 <script src="A81-Axis.js"></script>
@@ -36,7 +44,13 @@ pre { white-space:pre; }
 
 <body>
 
-<h1>A81‑Axis · Hyperraum · 6E/6D · 64‑Matrix · 81‑Achsen</h1>
+<h1>A81‑Axis · Hyperraum</h1>
+
+<!-- ⭐ GEO direkt im Homepage-Fenster -->
+<div id="geoHome"></div>
+
+<!-- ⭐ Effekt direkt im Homepage-Fenster -->
+<div id="effHome"></div>
 
 <nav>
     <a onclick="show('axis')">A81‑Axis</a>
@@ -47,162 +61,10 @@ pre { white-space:pre; }
     <a onclick="show('raw81')">81‑Achsen</a>
     <a onclick="show('sys')">System</a>
     <a onclick="show('stationen')">Stationen</a>
-    <a onclick="show('kern')">Hyperraum‑Kern</a>
-    <a onclick="show('exp')">Expansion</a>
-    <a onclick="show('fold')">Faltung</a>
-    <a onclick="show('stab')">Stabilisierung</a>
-    <a onclick="show('sync')">Synchronisation</a>
-    <a onclick="show('geoBox')">GEO</a>
-    <a onclick="show('effBox')">Effekt</a>
 </nav>
 
 <div id="axis" class="box"></div>
 <div id="mAxis" class="box"></div>
 <div id="tAxis" class="box"></div>
 
-<div id="raw6" class="box"></div>
-<div id="raw64" class="box"></div>
-<div id="raw81" class="box"></div>
-
-<div id="sys" class="box"></div>
-<div id="stationen" class="box"></div>
-
-<div id="kern" class="box"></div>
-<div id="exp" class="box"></div>
-<div id="fold" class="box"></div>
-<div id="stab" class="box"></div>
-<div id="sync" class="box"></div>
-
-<div id="geoBox" class="box">
-    <h2>GEO‑Kreis</h2>
-    <div id="geo"></div>
-</div>
-
-<div id="effBox" class="box"></div>
-
-<script>
-function show(id){
-    document.querySelectorAll('.box').forEach(b => b.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-}
-
-async function loadRaw(name){
-    return await fetch(name).then(r => r.text());
-}
-
-(async () => {
-
-    // Engines
-    document.getElementById("axis").innerHTML =
-        "<h2>A81‑Axis Engine</h2><pre>" +
-        JSON.stringify(A81_AXIS.start(), null, 2) +
-        "</pre>";
-
-    document.getElementById("mAxis").innerHTML =
-        "<h2>M‑Axis Engine</h2><pre>" +
-        JSON.stringify(M_AXIS.start(), null, 2) +
-        "</pre>";
-
-    document.getElementById("tAxis").innerHTML =
-        "<h2>T‑Axis Engine</h2><pre>" +
-        JSON.stringify(T_AXIS.start(), null, 2) +
-        "</pre>";
-
-    // RAW files
-    document.getElementById("raw6").innerHTML =
-        "<h2>6E / 6D</h2><pre>" +
-        await loadRaw("6e.raw") +
-        "\n\n" +
-        await loadRaw("6d.raw") +
-        "</pre>";
-
-    document.getElementById("raw64").innerHTML =
-        "<h2>64‑Matrix</h2><pre>" +
-        await loadRaw("64.raw") +
-        "\n\n" +
-        await loadRaw("64-Matrix.raw") +
-        "</pre>";
-
-    document.getElementById("raw81").innerHTML =
-        "<h2>81‑Achsen</h2><pre>" +
-        await loadRaw("81.raw") +
-        "\n\n" +
-        await loadRaw("a81.raw") +
-        "</pre>";
-
-    document.getElementById("sys").innerHTML =
-        "<h2>System</h2><pre>" +
-        await loadRaw("sys.raw") +
-        "</pre>";
-
-    document.getElementById("stationen").innerHTML =
-        "<h2>Stationen</h2><pre>" +
-        await loadRaw("BEST-KERN.html") +
-        "\n\n" +
-        await loadRaw("BEST-STATIONEN.html") +
-        "\n\n" +
-        await loadRaw("stationen.html") +
-        "</pre>";
-
-    // Hyperraum text
-    document.getElementById("kern").innerHTML =
-        "<h2>Hyperraum‑Kern</h2><pre>" +
-        "Energie‑Kern (6E)\nRaum‑Kern (6D)\nMatrix‑Kern (64)\nAchsen‑Kern (81)\n" +
-        "Hyperraum‑Kern: Motor, Struktur, Stabilisation, Intelligenz" +
-        "</pre>";
-
-    document.getElementById("exp").innerHTML =
-        "<h2>Hyperraum‑Expansion</h2><pre>" +
-        "Radial‑Pulse (6E)\nOrthogonal‑Shift (6D)\nSpiral‑Rotation (64)\nCube‑Expansion (81)" +
-        "</pre>";
-
-    document.getElementById("fold").innerHTML =
-        "<h2>Hyperraum‑Faltung</h2><pre>" +
-        "X‑Faltung\nY‑Faltung\nZ‑Faltung\nH‑Faltung" +
-        "</pre>";
-
-    document.getElementById("stab").innerHTML =
-        "<h2>Hyperraum‑Stabilisierung</h2><pre>" +
-        "E‑Stabilisierung\nD‑Stabilisierung\nM‑Stabilisierung" +
-        "</pre>";
-
-    document.getElementById("sync").innerHTML =
-        "<h2>Hyperraum‑Synchronisation</h2><pre>" +
-        "E‑Sync\nD‑Sync\nM‑Sync\nA‑Sync\nS‑Sync" +
-        "</pre>";
-
-    // GEO
-    const geoDiv = document.getElementById("geo");
-    const count = 36;
-    const radius = 160;
-
-    for(let i=0; i<count; i++){
-        const dot = document.createElement("div");
-        dot.className = "dot";
-
-        const angle = (i / count) * Math.PI * 2;
-        const x = Math.cos(angle)*radius + 180 - 6;
-        const y = Math.sin(angle)*radius + 180 - 6;
-
-        dot.style.left = x+"px";
-        dot.style.top  = y+"px";
-
-        geoDiv.appendChild(dot);
-    }
-
-    // Effekt
-    const pulse = Array.from({length:36}, (_,i)=>Math.sin(i/6));
-    const wave  = Array.from({length:36}, (_,i)=>Math.cos(i/4));
-
-    document.getElementById("effBox").innerHTML =
-        "<h2>Effekt</h2><pre>" +
-        JSON.stringify({ pulse, wave }, null, 2) +
-        "</pre>";
-
-    show('axis');
-
-})();
-</script>
-
-</body>
-</html>
+<div id="raw6" class="box">
