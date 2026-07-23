@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>A81-Axis · TECH/EVO · Combined Index</title>
+<title>A81-Axis · MASTER · TECH/EVO + WaU + UaW</title>
 
 <script src="A81-Axis.js"></script>
 <script src="M-Axis.js"></script>
@@ -18,24 +18,41 @@ h1 { color:#0f0; text-align:center; }
 
 <body>
 
-<h1>A81-Axis · TECH/EVO · Combined</h1>
+<h1>A81-Axis · MASTER · Combined</h1>
 <pre id="out">Lade…</pre>
 
 <script>
+// 1) Achsen laden
 const axis = A81_AXIS.compute();
 const m     = M_AXIS.compute();
 const t     = T_AXIS.compute();
 const evo   = A81_TECH_EVO.build();
 
-const combined = {
-    A81_AXIS: axis,
-    M_AXIS: m,
-    T_AXIS: t,
-    A81_TECH_EVO: evo
-};
+// 2) Inhalte aus WaU.html und UaW.html laden
+async function loadModule(file){
+    const response = await fetch(file);
+    return await response.text();
+}
 
-document.getElementById("out").innerText =
-    JSON.stringify(combined, null, 2);
+Promise.all([
+    loadModule("index.html"),   // Option 1
+    loadModule("WaU.html"),     // Option 2
+    loadModule("UaW.html")      // Option 3
+]).then(modules => {
+
+    const combined = {
+        A81_AXIS: axis,
+        M_AXIS: m,
+        T_AXIS: t,
+        A81_TECH_EVO: evo,
+        MODULE_index: modules[0],
+        MODULE_WaU: modules[1],
+        MODULE_UaW: modules[2]
+    };
+
+    document.getElementById("out").innerText =
+        JSON.stringify(combined, null, 2);
+});
 </script>
 
 </body>
